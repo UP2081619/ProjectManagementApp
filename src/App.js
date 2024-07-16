@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
+import './App.css';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
-import './styles/App.css';
+import ProjectList from './components/ProjectList';
+import Analytics from './components/Analytics';
 
 function App() {
+  const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [currentProject, setCurrentProject] = useState(null);
 
-  const addTask = (title) => {
+  const addProject = (name) => {
+    const newProject = { id: Date.now(), name };
+    setProjects([...projects, newProject]);
+  };
+
+  const addTask = (title, description, priority, dueDate) => {
     const newTask = {
       id: Date.now(),
-      title: title,
-      completed: false
+      title,
+      description,
+      priority,
+      dueDate,
+      completed: false,
+      projectId: currentProject
     };
     setTasks([...tasks, newTask]);
   };
@@ -28,12 +41,22 @@ function App() {
   return (
     <div className="App">
       <h1>Project Management App</h1>
-      <TaskForm onAddTask={addTask} />
-      <TaskList 
-        tasks={tasks} 
-        onToggleTask={toggleTask}
-        onDeleteTask={deleteTask}
+      <ProjectList 
+        projects={projects} 
+        addProject={addProject}
+        setCurrentProject={setCurrentProject}
       />
+      {currentProject && (
+        <>
+          <TaskForm onAddTask={addTask} />
+          <TaskList 
+            tasks={tasks.filter(task => task.projectId === currentProject)} 
+            onToggleTask={toggleTask}
+            onDeleteTask={deleteTask}
+          />
+        </>
+      )}
+      <Analytics tasks={tasks} />
     </div>
   );
 }

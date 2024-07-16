@@ -10,7 +10,7 @@ const TaskList = ({ tasks, onToggleTask, onDeleteTask }) => (
           onChange={() => onToggleTask(task.id)}
         />
         <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
-          {task.title}
+          {task.title} - Priority: {task.priority} - Due: {task.dueDate}
         </span>
         <button onClick={() => onDeleteTask(task.id)}>Delete</button>
       </li>
