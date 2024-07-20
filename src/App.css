@@ -1,0 +1,29 @@
+.App {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  input, textarea, select {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    cursor: pointer;
+  }
