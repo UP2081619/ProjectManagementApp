@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
@@ -6,9 +6,23 @@ import ProjectList from './components/ProjectList';
 import Analytics from './components/Analytics';
 
 function App() {
-  const [projects, setProjects] = useState([]);
-  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState(() => {
+    const savedProjects = localStorage.getItem('projects');
+    return savedProjects ? JSON.parse(savedProjects) : [];
+  });
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
   const [currentProject, setCurrentProject] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem('projects', JSON.stringify(projects));
+  }, [projects]);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   const addProject = (name) => {
     const newProject = { id: Date.now(), name };
@@ -37,7 +51,19 @@ function App() {
   const deleteTask = (id) => {
     setTasks(tasks.filter(task => task.id !== id));
   };
-
+  const reorderTasks = (startIndex, endIndex) => {
+    const filteredTasks = tasks.filter(task => task.projectId === currentProject);
+    const [reorderedItem] = filteredTasks.splice(startIndex, 1);
+    filteredTasks.splice(endIndex, 0, reorderedItem);
+    
+    const updatedTasks = tasks.map(task => 
+      task.projectId === currentProject 
+        ? filteredTasks[filteredTasks.findIndex(t => t.id === task.id)] || task
+        : task
+    );
+    
+    setTasks(updatedTasks);
+  };
   return (
     <div className="App">
       <h1>Project Management App</h1>
