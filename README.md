@@ -3,7 +3,7 @@
 
 # Project Management App
 
-A React-based project management application that allows users to create projects, add tasks, and manage their workflow efficiently.
+A React-based project management application that allows users to create projects, add tasks, and manage their workflow efficiently within various tasks implemented with different priorities.
 
 ## Features
 
