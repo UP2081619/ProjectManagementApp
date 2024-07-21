@@ -1,5 +1,11 @@
 # ProjectManagementApp
  Prototype for Assignment 
+ 
+## Topics
+- React
+- Project Management
+- Web Application
+- JavaScript
 
 # Project Management App
 
